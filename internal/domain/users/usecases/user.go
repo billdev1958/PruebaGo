@@ -76,7 +76,6 @@ func (u *usecase) Login(ctx context.Context, request models.LoginRequest) (model
 		return models.LoginResponse{}, errors.New("contraseña incorrecta")
 	}
 
-	// Generar el token (este paso depende de la implementación del token)
 	token, err := auth.GenerateJWT(user.ID, user.Username)
 	if err != nil {
 		return models.LoginResponse{}, fmt.Errorf("error al generar el token: %w", err)
