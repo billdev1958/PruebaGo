@@ -1,0 +1,28 @@
+services:
+  db:
+    image: postgres:16.4
+    volumes:
+      - ./initDb:/docker-entrypoint-initdb.d
+      - db_data:/var/lib/postgresql/data
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: prueba_go
+
+  app:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+    env_file:
+      - ./.env
+    restart: always
+    ports:
+      - "8080:8080"
+
+volumes:
+  db_data:
